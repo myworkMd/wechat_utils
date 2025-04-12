@@ -517,13 +517,14 @@ def get_hw_message(num_hw: int = -1, max_message: int = 30) -> list[HwMessage]:
         hw_items = hw.GetChildren()
 
         for item in hw_items:
-            if item.Name in processed_names:
+            name = find_msg_master(item)
+            if name in processed_names:
                 continue
 
             # 获取会话消息
-            messages = get_message(item.Name.replace("已置顶", ""), max_message)
-            hw_messages.append(HwMessage(hw_name=item.Name, message=messages))
-            processed_names.add(item.Name)
+            messages = get_message(name, max_message)
+            hw_messages.append(HwMessage(hw_name=name, message=messages))
+            processed_names.add(name)
 
             # 如果达到指定数量则返回
             if num_hw != -1 and len(hw_messages) >= num_hw:
@@ -536,6 +537,9 @@ def get_hw_message(num_hw: int = -1, max_message: int = 30) -> list[HwMessage]:
         # 向下滚动，如果已经滚动到底部则返回
         if scroll_page_down(hw):
             return hw_messages
+
+
+
 
 
 def json_serial(obj):
