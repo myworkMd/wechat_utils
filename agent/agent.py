@@ -15,6 +15,7 @@ class DifyAgent:
         :param conversation_id: 会话ID，可选
         :return: 包含完整响应文本和会话ID的字典
         """
+        print("---start----")
         url = f"{self.base_url}/chat-messages"
         headers = {
             "Authorization": f"Bearer {self.api_key}",

@@ -324,8 +324,22 @@ def get_user_name() -> str:
     chat_info_buttom = find_control(wx, "ButtonControl",
                                     "聊天信息").GetParentControl().GetParentControl().GetParentControl()
     user_name_buttom = find_control(chat_info_buttom, "TextControl")
+    print(len(user_name_buttom.GetParentControl().GetChildren()))
     return user_name_buttom.Name
 
+
+def get_chat_type() -> str:
+    """
+    获取当前聊天窗口的类型
+    :return: 单聊 或 群聊
+    """
+    chat_info_buttom = find_control(wx, "ButtonControl",
+                                    "聊天信息").GetParentControl().GetParentControl().GetParentControl()
+    user_name_button = find_control(chat_info_buttom, "TextControl")
+    if len(user_name_button.GetParentControl().GetChildren()) == 1:
+        return '单聊'
+    else:
+        return '群聊'
 
 # 发送文件
 def send_file(file_path: str, username=''):
@@ -523,7 +537,7 @@ def get_hw_message(num_hw: int = -1, max_message: int = 30) -> list[HwMessage]:
 
             # 获取会话消息
             messages = get_message(name, max_message)
-            hw_messages.append(HwMessage(hw_name=name, message=messages))
+            hw_messages.append(HwMessage(hw_name=name,type=get_chat_type(), message=messages))
             processed_names.add(name)
 
             # 如果达到指定数量则返回
@@ -561,4 +575,16 @@ def list_message2json(list: list[HwMessage]) -> str:
 if __name__ == '__main__':
     time.sleep(2)
     init("komnenos")
-    forward_message("在？","haha")
+    print(get_message("haha",1))
+
+
+def cancelUpdate():
+    try:
+        update = find_control(wx, "PaneControl", "升级")
+        if update is not None:
+            notUpdate = find_control(update, "ButtonControl", "暂不更新")
+            if notUpdate is not None:
+                notUpdate.Click()
+    except Exception as e:
+        print("取消微信更新出错：")
+        print(e)

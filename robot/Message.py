@@ -7,9 +7,9 @@ from dataclasses import dataclass
 
 @dataclass
 class Message:
-    user_name: str
-    time: datetime
-    msg: str
+    user_name: str  # 发送消息用户昵称（取决于当前窗口展示昵称）
+    time: datetime  # 消息发送时间
+    msg: str  # 消息内容
 
     @staticmethod
     def is_time_string(time_str: str) -> bool:
@@ -88,7 +88,8 @@ class Message:
 @dataclass
 class HwMessage:
     hw_name: str
-    message: Message
+    type:str
+    message: list[Message]
 
 
 if __name__ == '__main__':

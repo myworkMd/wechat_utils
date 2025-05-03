@@ -9,9 +9,7 @@
     "/send_message": {
       "post": {
         "summary": "发送消息",
-        "tags": [
-          "消息操作"
-        ],
+        "tags": ["消息操作"],
         "requestBody": {
           "required": true,
           "content": {
@@ -19,15 +17,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "message": {
-                    "type": "string",
-                    "description": "消息内容"
-                  },
-                  "user_name": {
-                    "type": "string",
-                    "description": "目标用户名（可选）"
-                  }
-                }
+                  "message": { "type": "string", "description": "消息内容" },
+                  "user_name": { "type": "string", "description": "目标对话窗口（可选），不填默认在当前已打开窗口" }
+                },
+                "required": ["message"]
               }
             }
           }
@@ -39,12 +32,35 @@
         }
       }
     },
+    "/get_message": {
+      "get": {
+        "summary": "获取消息，输入参数中的user_name为目标对话窗口，max_messages是获取的最大消息数量",
+        "tags": ["消息操作"],
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "max_messages",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "消息获取成功"
+          }
+        }
+      }
+    },
     "/send_file": {
       "post": {
         "summary": "发送文件",
-        "tags": [
-          "文件操作"
-        ],
+        "tags": ["文件操作"],
         "requestBody": {
           "required": true,
           "content": {
@@ -52,15 +68,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "file_path": {
-                    "type": "string",
-                    "description": "文件路径"
-                  },
-                  "user_name": {
-                    "type": "string",
-                    "description": "目标用户名（可选）"
-                  }
-                }
+                  "file_path": { "type": "string", "description": "文件路径" },
+                  "user_name": { "type": "string", "description": "目标用户名（可选）" }
+                },
+                "required": ["file_path"]
               }
             }
           }
@@ -75,9 +86,7 @@
     "/forward_message": {
       "post": {
         "summary": "转发消息",
-        "tags": [
-          "消息操作"
-        ],
+        "tags": ["消息操作"],
         "requestBody": {
           "required": true,
           "content": {
@@ -85,19 +94,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "message": {
-                    "type": "string",
-                    "description": "消息内容"
-                  },
-                  "address": {
-                    "type": "string",
-                    "description": "转发对象"
-                  },
-                  "postscript": {
-                    "type": "string",
-                    "description": "转发附言（可选）"
-                  }
-                }
+                  "message": { "type": "string", "description": "消息内容" },
+                  "address": { "type": "string", "description": "转发对象" },
+                  "postscript": { "type": "string", "description": "转发附言（可选）" }
+                },
+                "required": ["message", "address"]
               }
             }
           }
@@ -109,52 +110,16 @@
         }
       }
     },
-    "/add_note_name": {
-      "post": {
-        "summary": "添加备注名",
-        "tags": [
-          "好友管理"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "note_name": {
-                    "type": "string",
-                    "description": "备注名"
-                  },
-                  "user_name": {
-                    "type": "string",
-                    "description": "目标用户名"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "备注名添加成功"
-          }
-        }
-      }
-    },
     "/add_friend": {
       "post": {
         "summary": "添加好友",
-        "tags": [
-          "好友管理"
-        ],
+        "tags": ["好友管理"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "type": "object"
               }
             }
           }
@@ -166,37 +131,151 @@
         }
       }
     },
-    "/get_message": {
-      "get": {
-        "summary": "获取消息",
-        "tags": [
-          "消息操作"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "user_name",
-            "type": "string",
-            "description": "目标用户名"
-          },
-          {
-            "in": "query",
-            "name": "max_messages",
-            "type": "integer",
-            "description": "最大获取消息数量（可选，默认-1表示获取所有）"
+    "/add_note_name": {
+      "post": {
+        "summary": "添加备注名",
+        "tags": ["好友管理"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "note_name": { "type": "string", "description": "备注名" },
+                  "user_name": { "type": "string", "description": "目标用户名" }
+                },
+                "required": ["note_name", "user_name"]
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
-            "description": "消息获取成功"
+            "description": "备注名添加成功"
           }
         }
       }
+    },
+    "/schedule_message": {
+      "post": {
+        "summary": "定时/循环发送消息",
+        "tags": ["消息操作"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": { "type": "string", "description": "消息内容" },
+                  "description": { "type": "string", "description": "任务描述，准确的任务描述方便后面查找时定位" },
+                  "user_name": { "type": "string", "description": "发送消息的目标对话窗口（可选），不填则在当前打开的聊天发送消息" },
+                  "exec_time": { "type": "string", "description": "期望执行时间（可选）,单次执行必填，循环执行不填，格式为'YYYY-MM-DD HH:MM:SS'" },
+                  "interval_type": { "type": "string", "description": " 循环类型（可选），单次执行不填，循环执行必填，可选值：seconds, minutes, hours, days, weeks, weekday, monthday, yearly" },
+                  "interval_value": { "type": "string", "description": "循环间隔值（可选），单次执行不填，循环执行必填，与interval_type配合使用：'seconds' - 每过多少秒 ，'minutes' - 每过多少分钟 ，'hours' - 每过多少小时 ，'days' - 每过多少天 ，'weeks' - 每过多少周 ，'weekday' - 每个星期几（0-6，0表示周一）" }
+                },
+                "required": ["message", "exec_time"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "任务调度成功"
+          }
+        }
+      }
+    },
+    "/cancel_task": {
+      "post": {
+        "summary": "取消任务，在取消前可以调用get_all_tasks工具查看有哪些任务，根据任务描述找到最适合的任务id进行取消",
+        "tags": ["任务调度"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task_id": { "type": "string", "description": "需要取消的任务id" }
+                },
+                "required": ["task_id"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "任务取消成功"
+          }
+        }
+      }
+    },
+    "/get_all_tasks": {
+      "get": {
+        "summary": "获取所有任务，能够返回任务描述和任务id",
+        "tags": ["任务调度"],
+        "responses": {
+          "200": {
+            "description": "获取任务列表成功"
+          }
+        }
+      }
+    },
+    "/get_now_time": {
+      "get": {
+        "summary": "获取当前时间，以YYYY-MM-DD HH:MM:SS格式返回",
+        "tags": ["时间"],
+        "responses": {
+          "200": {
+            "description": "获取当前时间成功"
+          }
+        }
+      }
+    },
+  "/calculate_time": {
+    "post": {
+      "summary": "时间跨度计算,例如获取明天15点整的时间，则delta_days传入1，fixed_hour传入15，fixed_minute和fixed_second传入0；获取下周三时间，则delta_weeks传入1，fixed_weekday传入2",
+      "tags": ["时间"],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "delta_years": { "type": "integer", "description": "年增量（可选）" },
+                "delta_months": { "type": "integer", "description": "月增量（可选）" },
+                "delta_weeks": { "type": "integer", "description": "周增量（可选）" },
+                "delta_days": { "type": "integer", "description": "日增量（可选）" },
+                "delta_hours": { "type": "integer", "description": "小时增量（可选）" },
+                "delta_minutes": { "type": "integer", "description": "分钟增量（可选）" },
+                "delta_seconds": { "type": "integer", "description": "秒增量（可选）" },
+                "fixed_year": { "type": "integer", "description": "固定年份（可选）" },
+                "fixed_month": { "type": "integer", "description": "固定月份（可选）" },
+                "fixed_day": { "type": "integer", "description": "固定日期（可选）" },
+                "fixed_weekday": { "type": "integer", "description": "固定星期几，填入数字0-6，0表示周一，6表示周日（可选）" },
+                "fixed_hour": { "type": "integer", "description": "固定小时（可选）" },
+                "fixed_minute": { "type": "integer", "description": "固定分钟（可选）" },
+                "fixed_second": { "type": "integer", "description": "固定秒数（可选）" },
+                "base_time": { "type": "string", "description": "基准时间（可选），格式为'YYYY-MM-DD HH:MM:SS'" }
+              },
+              "required": ["calculated_time"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "时间计算成功"
+        }
+      }
     }
+  }
   },
-  "servers": [
+    "servers": [
     {
-      "url": "http://localhost:5000",
+      "url": "http://192.168.31.63:5000",
       "description": "本地开发环境"
     }
   ],
