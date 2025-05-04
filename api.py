@@ -14,6 +14,27 @@ app = Flask(__name__)
 swagger = Swagger(app)
 
 
+@app.before_request
+def log_request_info():
+    """拦截所有请求，打印请求方法和参数"""
+    print("\n===== 请求信息 =====")
+    print(f"请求方法: {request.method}")
+    print(f"请求路径: {request.path}")
+    print(f"请求头: {dict(request.headers)}")
+
+    # 打印 GET 请求的查询参数
+    if request.args:
+        print("查询参数 (GET):", request.args.to_dict())
+
+    # 打印 POST/PUT/PATCH 请求的 JSON Body
+    if request.method in ("POST", "PUT", "PATCH") and request.is_json:
+        print("请求体 (JSON):", request.get_json())
+    elif request.method == "POST" and request.form:
+        print("请求体 (Form Data):", request.form.to_dict())
+    elif request.method == "POST" and request.data:
+        print("请求体 (Raw Data):", request.data.decode("utf-8"))
+
+
 def filtered_none_json(data):
     return {k: v for k, v in data.items() if v is not None}
 

@@ -1,0 +1,63 @@
+# Core & Web Frameworks
+Django==5.2
+Flask==3.1.0
+asgiref==3.8.1
+Werkzeug==3.1.3
+Jinja2==3.1.6
+itsdangerous==2.2.0
+click==8.1.8
+
+# API Documentation (Swagger/OpenAPI)
+apispec==6.8.1
+apispec-webframeworks==1.2.0
+flask-apispec==0.11.4
+flask-swagger-ui==4.11.1  # Only keeping one Swagger UI package
+
+# API Utilities
+flask-cors==5.0.1
+webargs==8.6.0
+marshmallow==3.26.1
+requests==2.32.3
+
+# Data Handling & Serialization
+PyYAML==6.0.2
+python-dateutil==2.9.0.post0
+icalendar==6.1.3
+jsonschema==4.23.0
+jsonschema-specifications==2024.10.1
+referencing==0.36.2
+rpds-py==0.24.0
+
+# Scheduling & Time
+django-scheduler==0.10.1
+schedule==1.2.2
+pytz==2024.1  # Corrected from 2025.2
+tzdata==2024.1  # Corrected from 2025.2
+
+# Security & Authentication
+certifi==2024.3.28  # Corrected from 2025.1.31
+charset-normalizer==3.4.1
+idna==3.10
+urllib3==2.4.0
+
+# Utilities
+attrs==25.3.0
+blinker==1.9.0
+colorama==0.4.6
+MarkupSafe==3.0.2
+mistune==3.1.3
+packaging==24.2
+pyperclip==1.9.0
+six==1.17.0
+sqlparse==0.5.3
+typing_extensions==4.13.2
+
+# Windows-Specific (Optional - remove if deploying on Linux)
+comtypes==1.4.10
+pywin32==310
+uiautomation==2.0.20
+
+# Build/Dev Tools (Usually not needed in production)
+setuptools==68.2.0
+wheel==0.41.2
+pip==23.2.1
