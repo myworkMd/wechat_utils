@@ -21,7 +21,7 @@
 
 # 快速使用
 ## 第一次使用：
-1. 安装dockerh和dify，教程：https://blog.csdn.net/2301_80314483/article/details/146987475
+1. 安装docker和dify，教程：https://blog.csdn.net/2301_80314483/article/details/146987475
 3. 下载一键启动包。进入release下载压缩包.
 4. 修改swagger_output.json里最下方的url，将ip地址改为你本机的内网ip地址。 
 5. 申请第三方AI大模型API，将申请到的api_key填入config.ini的api_key里。修改robot_name为你的微信机器人的微信昵称。 
