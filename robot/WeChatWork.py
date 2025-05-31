@@ -432,7 +432,6 @@ def _right_click_control_fast(control: ui.Control):
 
 
 def scroll(control: ui.Control, scroll_line: int,is_down: bool = True):
-    hw_rect = control.BoundingRectangle
     # 计算会话列表的中心点
     hw_rect = control.BoundingRectangle
     # 计算会话列表的中心点
