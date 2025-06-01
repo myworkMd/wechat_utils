@@ -20,7 +20,7 @@
 从我的使用情况来看（三个微信小号），第一周会时不时被踢下线，大概两三天一次，接下来的一个月也有较低概率被踢下线，之后几乎不会被踢下线。
 
 # 快速使用
-## 第一次使用（视频教程：https://www.bilibili.com/video/BV1mz7wzLEbc）
+## 第一次使用，视频教程：https://www.bilibili.com/video/BV1mz7wzLEbc
 1. 安装docker和dify，教程：https://blog.csdn.net/2301_80314483/article/details/146987475
 2. 下载一键启动包。进入release下载压缩包.
 3. 修改swagger_output.json里最下方的url，将ip地址改为你本机的内网ip地址。  
